@@ -49,8 +49,8 @@ def parser(tokens):
             except : print("NIL", end = '')
 
         elif token == "POP":
-            try : print(stack.pop(), end = '')
-            except : print("NIL", end = '')
+            try : stack.pop()
+            except : pass 
         
         elif token == "ADD":
             stack.append(sum(stack))
@@ -90,11 +90,22 @@ def parser(tokens):
             stack[-1] = stack[-1] + tokens[i + 1]
             i += 1
 
+        elif token == "COMPWITH":
+            val =  stack[-1] - tokens[i + 1]
+            if val > 0:
+                stack.append(1)
+            elif val < 0:
+                stack.append(-1)
+            else:
+                stack.append(0)
+
+            i+=1
+
         elif token == "EVAL":
             stack.append(eval(parsestring(stack[-1])))
 
         elif token == "END":
-            return 0
+            exit()
 
         i += 1
     

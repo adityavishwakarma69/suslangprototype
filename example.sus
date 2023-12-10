@@ -1,4 +1,0 @@
-PUSH 10__+__20
-EVAL
-PEEK
-PRINT _N
