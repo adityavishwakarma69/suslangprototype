@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 stack = []
+variables = {}
+
 loop = 0
 
-def lexer(line):
-
+def lexer(line): 
     raw_tokens = line.split(' ')
     i = 0
 
@@ -29,6 +30,7 @@ def lexer(line):
 
 def parser(tokens):
     global stack
+    global variables
 
     i = 0
     while i < len(tokens):
@@ -40,7 +42,9 @@ def parser(tokens):
         elif token == "PUSH":
             i += 1
             value = tokens[i]
-            if type(value) == type(" "):
+            if tokens[i] in variables:
+                value = variables[tokens[i]]
+            elif type(value) == type(" "):
                 value = parsestring(tokens[i])
             stack.append(value)
 
@@ -86,6 +90,15 @@ def parser(tokens):
 
             return 2
 
+        elif token == "FOR":
+            j = i
+            while tokens[j] != "ROF":
+                j += 1
+            loop_block = tokens[i + 1:j]
+            n = stack[-1]
+            for i in range(n):
+                parser(loop_block)
+
         elif token == "ADDWITH":
             stack[-1] = stack[-1] + tokens[i + 1]
             i += 1
@@ -101,11 +114,24 @@ def parser(tokens):
 
             i+=1
 
+        elif token == "EXT":
+            val = stack[-1]
+            name = tokens[i + 1]
+            variables[name] = val
+            i += 1
+
         elif token == "EVAL":
             stack.append(eval(parsestring(stack[-1])))
 
+        elif token == "VAR":
+            name = tokens[i + 1]
+            value = tokens[i + 2]
+            variables[name] = value
+            i += 2
+
         elif token == "END":
             exit()
+
 
         i += 1
     
@@ -116,6 +142,17 @@ def parsestring(string):
     string = string.replace("__", " ")
     string = string.replace("_N", "\n")
     string = string.replace("_T", "\t")
+    for i in range(len(string) - 1):
+        if string[i:i+2] == "_V":
+            var = string[i+2]
+            
+            if var in variables:
+                value = variables[var]
+                string = string[:i] + f"{value}" + string[i+3:]
+    try:
+        string = string.replace("{}", f"{stack[-1]}")
+    except:
+        pass
     try:
         if string[:2] == '_L':
             string = string[2:].lower()
@@ -149,9 +186,7 @@ if __name__ == "__main__":
         for line in lines:
             line = line[:len(line) - 1]
             tokens = lexer(line) 
-            rcode = parser(tokens)
-
-           
+            rcode = parser(tokens) 
 
             if rcode != 2:
                 break
@@ -162,3 +197,4 @@ if __name__ == "__main__":
             tokens = lexer(line)
             rcode = parser(tokens)
             print(stack)
+            print(variables)
