@@ -3,7 +3,7 @@ HOW TO USE
 
 To use, copy the code in a python file
 
-run the file my giving it executable permission
+run the file by giving it executable permission
 or
 python interpreter.py
 
@@ -23,7 +23,7 @@ CaSe INsEnSitiVe
 To store data this uses a stack
 most commands work by checking the peek value of the stack
 
-(BTW there is no error handling just you just have to use the correct syntax)
+(BTW there is no error handling you just have to use the correct syntax)
 
 WEIRD STRING
 
@@ -88,7 +88,7 @@ RUN COMMANDS till the peek of stack in not 0
 COMMANDS MUST BE WRITTEN IN SINGLE LINE AS IN IF...FI
 
 
-12 COMPWITH <NUM>
+13 COMPWITH <NUM>
 pushes 1 to stack if peek of stack is greater than <NUM>
 pushes -1 to stack if peek of stack is smaller than <NUM>
 pushes 0 to stack if peek of stack is equal to <NUM>
@@ -96,7 +96,8 @@ pushes 0 to stack if peek of stack is equal to <NUM>
 14 END
 ends the code might not work in loops and if statements
 
-
+15 VAR <VARIABLE> <VALUE>
+adds a variable with value 😀
 
 
 EXAMPLE CODE ARE PROVIDED MAKE SURE TO CHECK THEM
